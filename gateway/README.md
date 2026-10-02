@@ -51,6 +51,26 @@ press Enter. You should see `student-NN key saved`.
 
 Clicked the wrong one? Press **Undo** on that block.
 
+## 4. After the class (optional)
+
+If this gateway VM gets destroyed after class, skip this: the student keys
+live only on this VM and stop working when it's gone.
+
+If the VM will be **kept or reused**, shut off this class's keys:
+
+```
+python3 ~/bifrost/bin/end-class.py
+```
+
+It lists each student key and what it spent, asks you to type `yes`, then
+deletes the keys (they stop working immediately) and empties the key page.
+Add `--stop-gateway` to also stop Bifrost and the key page until the next
+class, or `--dry-run` to just see what it would do.
+
+Either way, the Anthropic API key itself stays valid until it's revoked in the
+Anthropic Console -- destroying the VM doesn't revoke it. See
+[Anthropic key hygiene](../README.md#anthropic-key-hygiene).
+
 ---
 
 ### If something's wrong

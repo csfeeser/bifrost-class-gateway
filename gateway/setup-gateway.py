@@ -198,7 +198,7 @@ def main():
 	os.makedirs(DATA_DIR, mode=0o700, exist_ok=True)
 	os.makedirs(KEYS_DIR, mode=0o700, exist_ok=True)
 	os.makedirs(BIN_DIR, mode=0o755, exist_ok=True)
-	for name in ("key-site.py", "make-student-keys.py"):
+	for name in ("key-site.py", "make-student-keys.py", "end-class.py"):
 		source = os.path.join(HERE, name)
 		if not os.path.exists(source):
 			die(f"{name} must be in the same folder as this script ({HERE}).")

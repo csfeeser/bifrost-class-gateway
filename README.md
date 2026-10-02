@@ -23,6 +23,7 @@ helper's browser ──(login)──▶ student key page (aux2, :2225)
 | [`gateway/setup-gateway.py`](gateway/setup-gateway.py) | gateway VM | Starts Bifrost and the key page, with the logins and protections in place (see [Security](#security)). Safe to re-run. |
 | [`gateway/make-student-keys.py`](gateway/make-student-keys.py) | gateway VM | Creates `student-01` ... `student-NN` virtual keys and the roster the key page shows. |
 | [`gateway/key-site.py`](gateway/key-site.py) | gateway VM (in Docker) | The student key page: one click-to-copy block per student. |
+| [`gateway/end-class.py`](gateway/end-class.py) | gateway VM | Optional: deletes the class's student keys and empties the key page, for a gateway VM that outlives its class. |
 | [`student-vm/install-pi-environment.sh`](student-vm/install-pi-environment.sh) | each student VM | Installs Node.js and the [Pi](https://www.npmjs.com/package/@earendil-works/pi-ai) agent packages, finds the student's key, and checks it works through the gateway. |
 
 Step-by-step instructions for running a class are in
@@ -69,6 +70,18 @@ Students then run `student-vm/install-pi-environment.sh`.
   separate from the Bifrost admin login.
 - **No secrets are in this repo.** All logins are generated on the gateway VM
   at setup time. `.gitignore` blocks `.env` files, key files, and rosters.
+
+## Anthropic key hygiene
+
+Virtual keys live only in the gateway VM's own database, so destroying the
+gateway VM shuts off every student key with it. **It does not revoke the
+Anthropic API key**, which stays valid until it's revoked in the
+[Anthropic Console](https://console.anthropic.com/). Recommended:
+
+- Create the gateway's key in a dedicated Anthropic **Workspace** with a
+  **spend limit**, so any forgotten or leaked gateway has a capped cost.
+- Use a separate key per class (or rotate the classroom key regularly), and
+  revoke it when the class is over.
 
 ## Configuration
 
