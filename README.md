@@ -85,3 +85,7 @@ The aux1/aux2 addresses assume a lab platform that publishes each VM's ports
 `https://aux2-...`, where `hostname -f` is `<host>.<id>`. On other platforms,
 pass `--gateway-url` to `make-student-keys.py` and point your own reverse
 proxy at ports 2224 and 2225.
+
+## License
+
+[MIT](LICENSE)
