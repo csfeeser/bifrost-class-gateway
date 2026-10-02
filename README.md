@@ -71,6 +71,28 @@ Students then run `student-vm/install-pi-environment.sh`.
 - **No secrets are in this repo.** All logins are generated on the gateway VM
   at setup time. `.gitignore` blocks `.env` files, key files, and rosters.
 
+## Capacity
+
+Load-tested in October 2026 with the worst case in the course labs (Lab 8's
+runaway loop: 5 rounds, up to 5 tool calls per round), every simulated
+student starting at the same moment:
+
+| Simultaneous students | Path | Requests | Result | Median / max latency |
+|---|---|---|---|---|
+| 10 | through aux1 proxy | 50 | all OK | 1.4 s / 2.1 s |
+| 20 | through aux1 proxy | 100 | all OK | 1.4 s / 2.1 s |
+| 30 | through aux1 proxy | 150 | all OK | 1.5 s / 2.2 s |
+| 60 | through aux1 proxy | 300 | 38 failed (HTTP 502 from the proxy) | 1.5 s / 2.3 s |
+| 60 | direct to Bifrost | 300 | all OK | 1.4 s / 2.1 s |
+
+- **Bifrost isn't the bottleneck:** about 130 MB of memory and under 15% of
+  one CPU at the 60-student peak (~2,300 requests/minute).
+- **The 60-student failures came from the lab platform's aux1 proxy**, not
+  Bifrost (they never reached it, and were rejected within ~6 ms). In the test
+  every request came from one VM; in a real class, requests come from each
+  student's own VM, so a per-client limit in the proxy may not apply.
+- **Cost:** about $0.014 per student per full run of that worst-case loop.
+
 ## Anthropic key hygiene
 
 Virtual keys live only in the gateway VM's own database, so destroying the
