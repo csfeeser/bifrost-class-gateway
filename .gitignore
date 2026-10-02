@@ -1,0 +1,15 @@
+# Secrets and per-class data -- generated on the gateway VM, never committed.
+.env
+*.env
+.env.*
+.bifrost-env
+student-keys/
+roster.json
+roster.csv
+copied.json
+keysite.env
+data/
+
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,4 @@
+# Always Unix line endings: a CRLF shell script fails with "$'\r': command not found".
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
